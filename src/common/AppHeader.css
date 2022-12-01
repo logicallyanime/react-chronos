@@ -19,7 +19,11 @@
 }
 
 .app-nav ul {
+<<<<<<< HEAD
     list-style-position: none;
+=======
+    list-style-position: unset;
+>>>>>>> 1882611 (Patrick React Merge)
     margin: 0;
     padding: 0;
 }

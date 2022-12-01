@@ -15,7 +15,7 @@ class Profile extends Component {
                 <div className="container">
                     <div className="profile-info">
                         <div className="profile-avatar">
-                            { 
+                            {
                                 this.props.currentUser.imageUrl ? (
                                     <img src={this.props.currentUser.imageUrl} alt={this.props.currentUser.name}/>
                                 ) : (
@@ -29,6 +29,7 @@ class Profile extends Component {
                            <h2>{this.props.currentUser.name}</h2>
                            <p className="profile-email">{this.props.currentUser.email}</p>
                             <p><NavLink to="/group">Group</NavLink></p>
+                            <p><NavLink to="/editprofile">Edit Profile</NavLink></p>
                         </div>
                     </div>
                 </div>    

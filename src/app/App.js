@@ -8,6 +8,7 @@ import Home from '../home/Home';
 import Login from '../user/login/Login';
 import Signup from '../user/signup/Signup';
 import Profile from '../user/profile/Profile';
+import EditProfile from '../user/editprofile/EditProfile';
 import OAuth2RedirectHandler from '../user/oauth2/OAuth2RedirectHandler';
 import NotFound from '../common/NotFound';
 import LoadingIndicator from '../common/LoadingIndicator';
@@ -89,7 +90,7 @@ class App extends Component {
 
     return (
         <div className="App">
-          {console.log(this.props)}
+
           {/*{this.SidebarCondit()}*/}
           {/*{this.HeaderCondit()}*/}
           <AppHeader authenticated={this.state.authenticated} onLogout={this.handleLogout}/>
@@ -98,6 +99,8 @@ class App extends Component {
               <Route exact path="/" component={Home}></Route>
               <PrivateRoute path="/profile" authenticated={this.state.authenticated} currentUser={this.state.currentUser}
                 component={Profile}></PrivateRoute>
+              <PrivateRoute path="/editprofile" authenticated={this.state.authenticated} currentUser={this.state.currentUser}
+                component={EditProfile}></PrivateRoute>
               <PrivateRoute path="/group" authenticated={this.state.authenticated} currentUser={this.state.currentUser}
                 component={Group}></PrivateRoute>
               <Route path="/login"
