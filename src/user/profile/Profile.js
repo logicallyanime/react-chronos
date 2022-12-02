@@ -29,6 +29,9 @@ class Profile extends Component {
                            <h2>{this.props.currentUser.name}</h2>
                            <p className="profile-email">{this.props.currentUser.email}</p>
                             <p><NavLink to="/group">Group</NavLink></p>
+                            <p><NavLink to="/editprofile">Edit Profile</NavLink></p>
+                            <p><NavLink to="/usergroup">User Group</NavLink></p>
+                            <p><NavLink to="/usergroupedit">User Group Edit</NavLink></p>
                         </div>
                     </div>
                 </div>    

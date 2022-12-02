@@ -16,14 +16,15 @@ const request = (options) => {
     options = Object.assign({}, defaults, options);
 
     return fetch(options.url, options)
-        .then(response =>
-            response.json().then(json => {
-                if(!response.ok) {
-                    return Promise.reject(json);
-                }
-                return json;
-            })
-        );
+        .then(response => {
+            return response.text()
+        })
+        .then((data) => {
+            return(data ? JSON.parse(data) : {})
+        })
+        .catch((error) => {
+            return Promise.reject(error);
+        })
 };
 
 export function getCurrentUser() {
@@ -59,16 +60,38 @@ export function signup(signupRequest) {
 
 export function getGroup(groupId) {
     return request({
-        url: GROUP_API_URL + "/get",
-        method: "REQUEST",
-        body: JSON.stringify(groupId)
+        url: GROUP_API_URL + "/get/" + groupId,
+        method: "GET"
     });
 }
 
-export function getGroups(userId) {
+export function getGroupName(groupId) {
     return request({
+        url: GROUP_API_URL + "/getgroupname/" + groupId,
+        method: "Get"
+    })
+}
+
+export function getUserList(groupId) {
+    return request({
+        url: GROUP_API_URL + "/getUserList/" + groupId,
+        method: "GET"
+    })
+}
+
+export function getGroups(userId) {
+    let req = request({
         url: GROUP_API_URL + "/" + userId,
         method: "GET"
+    });
+    req.then((r) => console.log(r))
+    return req
+}
+
+export function createGroup(userId) {
+    return request({
+        url: GROUP_API_URL + "/create/" + userId,
+        method: "POST"
     });
 }
 
@@ -144,6 +167,13 @@ export function getUser(userId) {
     });
 }
 
+export function getUserByEmail(userEmail) {
+    return request({
+        url: USER_API_URL + "/getUserByEmail/" + userEmail,
+        method: 'GET'
+    });
+}
+
 export function registerNewUser(user) {
     return request({
         url: USER_API_URL,
@@ -168,11 +198,11 @@ export function removeUser(userId) {
     });
 }
 
-export function updateUser(userId) {
+export function updateUser(user) {
     return request({
         url: USER_API_URL + "/update",
         method: 'PATCH',
-        body: JSON.stringify(userId)
+        body: JSON.stringify(user)
     });
 }
 

@@ -1,7 +1,14 @@
 import React, { Component } from 'react';
+import {
+    Route,
+    Switch
+} from 'react-router-dom';
 import './group.css';
-import {getCurrentUser, getGroups} from "../../util/APIUtils";
-import {Button} from "antd";
+import {getCurrentUser, getGroups, createGroup} from "../../util/APIUtils";
+//import {Button} from "antd";
+import { Link } from 'react-router-dom';
+import Button from '@material-ui/core/Button';
+//import PrivateRoute from "../../common/PrivateRoute";
 
 
 class Group extends Component {
@@ -13,33 +20,64 @@ class Group extends Component {
 
 
     getUserGroups () {
-        const groups = getGroups(this.props.currentUser.id);
-        console.log(groups);
-        return groups;
+        const groupz = getGroups(this.props.currentUser.id);
+        //console.log(groups);
+        return groupz;
     }
 
     buttonGroup(group){
         return(
             <Button
-                onClick={() => {
-                    alert('clicked');
-                }}
+                component={Link} to="/new/location"
             >
                 {group.name}
             </Button>
         )
     }
 
-    render() {
-        const groups = this.getUserGroups();
+    render() {      //use async?
+        const groups = this.getUserGroups();    //use await?
+        console.log(groups);
+        // const groupsList = groups.promise;
+        // console.log(groupsList);
+        //
+        // // Get an array of the keys in your object
+        // const array = Object.keys(groups); // [1, 2]
+        // console.log(array);
+        //
+        // // Loop through that array using each key to get the value
+        // const result = array.map((key) => {
+        //     const value = groups[key];
+        //     console.log(key);
+        //
+        //     // Perform your desired logic here then return a new value
+        //     return value.data;
+        // });
+        // console.log(result); // ["item 1 data", "item 2 data"]
 
         return (
-            <p> text</p>
-            // <div>
-            //     {groups.map((group, index) => {
-            //         this.buttonGroup(group);
-            //     })}
-            // </div>
+            <div>
+                <div>
+                    <Button
+                        onClick={() => {
+                            alert('Creating New Group(Future)');
+                            createGroup(this.props.currentUser.id);
+
+                        }}
+                    >
+                        GroupCreate
+                    </Button>
+                </div>
+                {/*<div>*/}
+                {/*    {*/}
+                {/*     groups.forEach(group => {*/}
+                {/*         this.buttonGroup(group);*/}
+                {/*         console.log(group);*/}
+                {/*         alert(group);*/}
+                {/*     })*/}
+                {/*    }*/}
+                {/*</div>*/}
+            </div>
         )
     }
 }

@@ -21,6 +21,9 @@ import './App.css';
 import Group from "../user/group/Group";
 import AppSidebar from "../common/AppSidebar";
 import profile from "../user/profile/Profile";
+import EditProfile from "../user/editprofile/EditProfile";
+import UserGroup from "../user/group/UserGroup";
+import UserGroupEdit from "../user/group/UserGroupEdit";
 
 const nonSiderPages = ["/", "/login", "/signup", "/profile"]
 
@@ -99,8 +102,14 @@ class App extends Component {
               <Route exact path="/" component={Home}></Route>
               <PrivateRoute path="/profile" authenticated={this.state.authenticated} currentUser={this.state.currentUser}
                 component={Profile}></PrivateRoute>
+              <PrivateRoute path="/editprofile" authenticated={this.state.authenticated} currentUser={this.state.currentUser}
+                            component={EditProfile}></PrivateRoute>
+              <PrivateRoute path="/usergroup" authenticated={this.state.authenticated} currentUser={this.state.currentUser}
+                            component={UserGroup}></PrivateRoute>
               <PrivateRoute path="/group" authenticated={this.state.authenticated} currentUser={this.state.currentUser}
                 component={Group}></PrivateRoute>
+              <PrivateRoute path="/usergroupedit" authenticated={this.state.authenticated} currentUser={this.state.currentUser}
+                            component={UserGroupEdit}></PrivateRoute>
               <Route path="/login"
                 render={(props) => <Login authenticated={this.state.authenticated} {...props} />}></Route>
               <Route path="/signup"
