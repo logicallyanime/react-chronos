@@ -1,6 +1,7 @@
 import React, {Component, useState} from 'react';
 import {Button, FormControl, MenuItem, Select, Box, TextField} from "@mui/material";
 import {getCurrentUser, updateUser} from "../../util/APIUtils";
+import {Redirect} from "react-router-dom";
 
 let newName = '';
 let newTZ = 0;
@@ -27,12 +28,12 @@ class EditProfile extends Component {
                 <Box
                     component="form">
                 <FormControl>
-                <TextField id="name-box" label="Name" variant="outlined" defaultvalue={this.props.currentUser.name}
+                <TextField id="name-box" label="Name" variant="outlined" defaultValue={this.props.currentUser.name}
                            onChange={handleChange}/>
                     <Select
                         labelId="timezone-select-label"
                         id="timezone-select"
-                        defaultValue={this.props.currentUser.name}
+                        defaultValue={this.props.currentUser.timezone}
                         label="Timezone"
                         onChange={handleSelectChange}
                     >
@@ -76,7 +77,9 @@ class EditProfile extends Component {
                                 this.props.currentUser.name = newName;
                                 this.props.currentUser.timezone = newTZ;
                                 updateUser(this.props.currentUser);
-                            }}
+                                window.location.href='/profile';
+                            }
+                            }
                     >Save</Button>
                 </FormControl>
                 </Box>

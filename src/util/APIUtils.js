@@ -16,14 +16,30 @@ const request = (options) => {
     options = Object.assign({}, defaults, options);
 
     return fetch(options.url, options)
-        .then(response =>
-            response.json().then(json => {
-                if(!response.ok) {
-                    return Promise.reject(json);
-                }
-                return json;
-            })
-        );
+        .then(response => {
+            return response.text()
+        })
+        .then((data) => {
+            try{
+                return(data ? JSON.parse(data) : {})
+            }catch(e){
+                console.log("backdoor");
+                return data;
+            }
+        })
+        .catch((error) => {
+            return Promise.reject(error);
+        })
+    //
+    // return fetch(options.url, options)
+    // .then(response =>
+    //     response.json().then(json => {
+    //         if(!response.ok) {
+    //             return Promise.reject(json);
+    //         }
+    //         return json;
+    //     })
+    // );
 };
 
 export function getCurrentUser() {
@@ -35,10 +51,6 @@ export function getCurrentUser() {
         url: API_BASE_URL + "/api/v1/user/me",
         method: 'GET'
     });
-}
-
-export function getCurrentUserId() {
-
 }
 
 export function login(loginRequest) {
@@ -59,16 +71,29 @@ export function signup(signupRequest) {
 
 export function getGroup(groupId) {
     return request({
-        url: GROUP_API_URL + "/get",
-        method: "REQUEST",
-        body: JSON.stringify(groupId)
+        url: GROUP_API_URL + "/get/" + groupId,
+        method: "Get"
     });
+}
+
+export function getGroupName(groupId) {
+    return request({
+        url: GROUP_API_URL + "/getgroupname/" + groupId,
+        method: "Get"
+    })
 }
 
 export function getGroups(userId) {
     return request({
         url: GROUP_API_URL + "/" + userId,
         method: "GET"
+    });
+}
+
+export function createGroup(userId) {
+    return request({
+        url: GROUP_API_URL + "/create/" + userId,
+        method: "POST"
     });
 }
 
@@ -122,9 +147,8 @@ export function addUserCalendar(groupId, eventList){
 
 export function determineMeetingTime(groupId, email, meetingTime, date){
     return request({
-        url: GROUP_API_URL + "/dtm",
-        method: "REQUEST",
-        body: JSON.stringify(groupId, email, meetingTime, date)
+        url: GROUP_API_URL + "/dtm/" + groupId + "?email=" + email + "&meetingTime=" + meetingTime + "&sDate=" + date,
+        method: "PATCH",
     });
 }
 
@@ -142,6 +166,34 @@ export function getUser(userId) {
         method: 'GET',
         body: JSON.stringify(userId)
     });
+}
+
+export function userExists(userEmail) {
+    return request({
+        url: USER_API_URL + '/exists/' + userEmail,
+        method: 'GET'
+    })
+}
+
+export function getUserByEmail(userEmail) {
+    return request({
+        url: USER_API_URL + "/getUserByEmail/" + userEmail,
+        method: 'GET'
+    });
+}
+
+export function getUserIdByEmail(userEmail) {
+    return request({
+        url: USER_API_URL + "/getuseridbyemail/" + userEmail,
+        method: 'GET'
+    })
+}
+
+export function getUserList(groupId) {
+    return request({
+        url: GROUP_API_URL + "/getUserList/" + groupId,
+        method: "GET"
+    })
 }
 
 export function registerNewUser(user) {
@@ -175,5 +227,3 @@ export function updateUser(userId) {
         body: JSON.stringify(userId)
     });
 }
-
-

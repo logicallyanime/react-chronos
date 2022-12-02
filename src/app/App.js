@@ -20,6 +20,8 @@ import 'react-s-alert/dist/s-alert-default.css';
 import 'react-s-alert/dist/s-alert-css-effects/slide.css';
 import './App.css';
 import Group from "../user/group/Group";
+import UserGroup from "../user/group/UserGroup";
+import UserGroupEdit from "../user/group/UserGroupEdit";
 import AppSidebar from "../common/AppSidebar";
 import profile from "../user/profile/Profile";
 
@@ -104,6 +106,10 @@ class App extends Component {
                 component={EditProfile}></PrivateRoute>
               <PrivateRoute path="/group" authenticated={this.state.authenticated} currentUser={this.state.currentUser}
                 component={Group}></PrivateRoute>
+              <PrivateRoute path="/usergroup" authenticated={this.state.authenticated} currentUser={this.state.currentUser}
+                component={UserGroup}></PrivateRoute>
+              <PrivateRoute path="/usergroupedit" authenticated={this.state.authenticated} currentUser={this.state.currentUser}
+                component={UserGroupEdit}></PrivateRoute>
               <Route path="/login"
                 render={(props) => <Login authenticated={this.state.authenticated} {...props} />}></Route>
               <Route path="/signup"
