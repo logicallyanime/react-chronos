@@ -70,6 +70,28 @@ function handleRemove(event){
 async function thisGroupName() {
     let s;
     await getGroupName("638978c55c05151ad325b89b").then(r =>{
+function handleAdd(event){
+    console.log(qName);
+    addUserToGroup("638956f0ece6225fdf09948b", qName);
+}
+
+function handleRemove(event){
+    console.log(qName);
+    removeUserFromGroup("638956f0ece6225fdf09948b", qName);
+}
+
+function handleSave(event){
+    console.log(newName);
+    updateGroupName("638956f0ece6225fdf09948b", newName, null, null, null);
+}
+
+function handleAddEvents(event){
+    addToGroupEvents("638956f0ece6225fdf09948b");
+}
+
+async function thisGroupName() {
+    let s;
+    await getGroupName("638956f0ece6225fdf09948b").then(r =>{
         s = r;
     });
     return s;
