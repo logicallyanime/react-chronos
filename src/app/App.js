@@ -18,7 +18,7 @@ import PrivateRoute from '../common/PrivateRoute';
 import Alert from 'react-s-alert';
 import 'react-s-alert/dist/s-alert-default.css';
 import 'react-s-alert/dist/s-alert-css-effects/slide.css';
-// import './App.css';
+import './App.css';
 import Group from "../user/group/Group";
 import AppSidebar from "../common/AppSidebar";
 import profile from "../user/profile/Profile";
@@ -94,6 +94,7 @@ class App extends Component {
           {/*{this.SidebarCondit()}*/}
           {/*{this.HeaderCondit()}*/}
           <AppHeader authenticated={this.state.authenticated} onLogout={this.handleLogout}/>
+          {/*<AppSidebar authenticated={this.state.authenticated} onLogout={this.handleLogout}/>*/}
           <div className="main-content">
             <Switch>
               <Route exact path="/" component={Home}></Route>

@@ -1,13 +1,13 @@
 import { API_BASE_URL, ACCESS_TOKEN } from '../constants';
 
 const GROUP_API_URL = API_BASE_URL + "/api/v1/group";
-const USER_API_URL = "/api/v1/user";
+const USER_API_URL = API_BASE_URL + "/api/v1/user";
 
 const request = (options) => {
     const headers = new Headers({
         'Content-Type': 'application/json',
     })
-    
+
     if(localStorage.getItem(ACCESS_TOKEN)) {
         headers.append('Authorization', 'Bearer ' + localStorage.getItem(ACCESS_TOKEN))
     }
@@ -16,14 +16,14 @@ const request = (options) => {
     options = Object.assign({}, defaults, options);
 
     return fetch(options.url, options)
-    .then(response => 
-        response.json().then(json => {
-            if(!response.ok) {
-                return Promise.reject(json);
-            }
-            return json;
-        })
-    );
+        .then(response =>
+            response.json().then(json => {
+                if(!response.ok) {
+                    return Promise.reject(json);
+                }
+                return json;
+            })
+        );
 };
 
 export function getCurrentUser() {
@@ -35,6 +35,10 @@ export function getCurrentUser() {
         url: API_BASE_URL + "/api/v1/user/me",
         method: 'GET'
     });
+}
+
+export function getCurrentUserId() {
+
 }
 
 export function login(loginRequest) {
@@ -63,9 +67,8 @@ export function getGroup(groupId) {
 
 export function getGroups(userId) {
     return request({
-        url: GROUP_API_URL,
-        method: "GET",
-        body: JSON.stringify(userId)
+        url: GROUP_API_URL + "/" + userId,
+        method: "GET"
     });
 }
 
@@ -85,11 +88,11 @@ export function removeGroup(groupId) {
     });
 }
 
-export function updateGroup(groupId, name, userList, meeting, eventList){
+export function updateGroup(group){
     return request({
         url: GROUP_API_URL,
         method: "PATCH",
-        body: JSON.stringify(groupId, name, userList, meeting, eventList)
+        body: JSON.stringify(group)
     });
 }
 
@@ -135,7 +138,7 @@ export function setMeeting(groupId, meeting){
 
 export function getUser(userId) {
     return request({
-        url: API_BASE_URL + USER_API_URL,
+        url: USER_API_URL,
         method: 'GET',
         body: JSON.stringify(userId)
     });
@@ -143,7 +146,7 @@ export function getUser(userId) {
 
 export function registerNewUser(user) {
     return request({
-        url: API_BASE_URL + USER_API_URL,
+        url: USER_API_URL,
         method: 'POST',
         body: JSON.stringify(user)
     });
@@ -151,7 +154,7 @@ export function registerNewUser(user) {
 
 export function addContactAsUser(newName) {
     return request({
-        url: API_BASE_URL + USER_API_URL + "/contact",
+        url: USER_API_URL + "/contact",
         method: 'POST',
         body: JSON.stringify(newName)
     });
@@ -159,16 +162,18 @@ export function addContactAsUser(newName) {
 
 export function removeUser(userId) {
     return request({
-        url: API_BASE_URL + USER_API_URL,
+        url: USER_API_URL,
         method: 'DELETE',
         body: JSON.stringify(userId)
     });
 }
 
-export function updateUser(user) {
+export function updateUser(userId) {
     return request({
-        url: API_BASE_URL + USER_API_URL + "/update",
+        url: USER_API_URL + "/update",
         method: 'PATCH',
-        body: JSON.stringify(user)
+        body: JSON.stringify(userId)
     });
 }
+
+
