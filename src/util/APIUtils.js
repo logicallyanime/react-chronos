@@ -2,6 +2,7 @@ import { API_BASE_URL, ACCESS_TOKEN } from '../constants';
 
 const GROUP_API_URL = API_BASE_URL + "/api/v1/group";
 const USER_API_URL = API_BASE_URL + "/api/v1/user";
+const MEETING_API_URL = API_BASE_URL + "/api/v1/meeting";
 
 const request = (options) => {
     const headers = new Headers({
@@ -20,7 +21,11 @@ const request = (options) => {
             return response.text()
         })
         .then((data) => {
-            return(data ? JSON.parse(data) : {})
+            try{
+                return(data ? JSON.parse(data) : {})
+            }catch(e){
+                return data;
+            }
         })
         .catch((error) => {
             return Promise.reject(error);
@@ -111,27 +116,35 @@ export function removeGroup(groupId) {
     });
 }
 
-export function updateGroup(group){
+export function updateGroup(groupId, groupName, userList, meeting, eventList){
     return request({
-        url: GROUP_API_URL,
-        method: "PATCH",
-        body: JSON.stringify(group)
+        url: GROUP_API_URL + "/" + "groupId" +"/?name=" + groupName + "&userList=" + userList +
+            "&meeting=" + meeting + "&eventList=" + eventList,
+        method: "PATCH"
     });
 }
 
-export function addUserToGroup(groupId, user){
+export function updateGroupName(groupId, groupName){
     return request({
-        url: GROUP_API_URL + "/adduser",
+        url: GROUP_API_URL + "/updateGroupName/" + groupId,
         method: "PATCH",
-        body: JSON.stringify(groupId, user)
+        body: JSON.stringify(groupName)
     });
 }
 
-export function removeUserFromGroup(groupId, user){
+export function addUserToGroup(groupId, email){
     return request({
-        url: GROUP_API_URL + "/removeuser",
+        url: GROUP_API_URL + "/adduser/" + groupId,
         method: "PATCH",
-        body: JSON.stringify(groupId, user)
+        body: JSON.stringify(email)
+    });
+}
+
+export function removeUserFromGroup(groupId, email){
+    return request({
+        url: GROUP_API_URL + "/removeuser/" + groupId,
+        method: "PATCH",
+        body: JSON.stringify(email)
     });
 }
 
@@ -204,6 +217,20 @@ export function updateUser(user) {
         method: 'PATCH',
         body: JSON.stringify(user)
     });
+}
+
+export function addToGroupEvents(groupId) {
+    return request({
+        url: MEETING_API_URL + "/addToGCal/" + groupId,
+        method: 'POST'
+    })
+}
+
+export function sendEmails(groupId) {
+    return request({
+        url: MEETING_API_URL + "/sendEmails/" + groupId,
+        method: 'POST'
+    })
 }
 
 
