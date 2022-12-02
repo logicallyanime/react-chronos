@@ -69,7 +69,11 @@ function handleRemove(event){
 
 async function thisGroupName() {
     let s;
-    await getGroupName("638978c55c05151ad325b89b").then(r =>{
+    await getGroupName("638978c55c05151ad325b89b").then(r => {
+        s = r;
+    });
+    return s;
+}
 function handleAdd(event){
     console.log(qName);
     addUserToGroup("638956f0ece6225fdf09948b", qName);
