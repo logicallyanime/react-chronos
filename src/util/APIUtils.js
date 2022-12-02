@@ -207,12 +207,6 @@ export function getUserIdByEmail(userEmail) {
     })
 }
 
-export function getUserList(groupId) {
-    return request({
-        url: GROUP_API_URL + "/getUserList/" + groupId,
-        method: "GET"
-    })
-}
 
 export function registerNewUser(user) {
     return request({

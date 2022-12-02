@@ -1,12 +1,13 @@
 import React, {Component} from "react";
 import {
+    addToGroupEvents, addUserToGroup,
     determineMeetingTime,
     getCurrentUser,
     getGroup,
     getGroupName,
     getUser,
     getUserByEmail,
-    getUserList,
+    getUserList, removeUserFromGroup, updateGroupName,
     userExists
 } from "../../util/APIUtils";
 import {Box, Button, ButtonGroup, FormControl, Table, TextField} from "@mui/material";
@@ -76,17 +77,17 @@ async function thisGroupName() {
 }
 function handleAdd(event){
     console.log(qName);
-    addUserToGroup("638956f0ece6225fdf09948b", qName);
+    addUserToGroup("638978c55c05151ad325b89b", qName);
 }
 
 function handleRemove(event){
     console.log(qName);
-    removeUserFromGroup("638956f0ece6225fdf09948b", qName);
+    removeUserFromGroup("638978c55c05151ad325b89b", qName);
 }
 
 function handleSave(event){
     console.log(newName);
-    updateGroupName("638956f0ece6225fdf09948b", newName, null, null, null);
+    updateGroupName("638978c55c05151ad325b89b", newName, null, null, null);
 }
 
 function handleAddEvents(event){
@@ -95,7 +96,7 @@ function handleAddEvents(event){
 
 async function thisGroupName() {
     let s;
-    await getGroupName("638956f0ece6225fdf09948b").then(r =>{
+    await getGroupName("638978c55c05151ad325b89b").then(r =>{
         s = r;
     });
     return s;
