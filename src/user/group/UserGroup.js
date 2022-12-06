@@ -3,6 +3,7 @@ import './group.css';
 import {getGroup, getUserList} from "../../util/APIUtils";
 import usePromise from 'react-promise';
 
+let myID = "638ea2f34b10bf3bd2bc48ad";
 
 const getasync = (prom)=> {
     const {value, loading} = usePromise<Array>(prom)
@@ -22,7 +23,7 @@ class UserGroup extends Component {
 
 
     displayAllGroupMembers () {
-        const groupIdTest = '63895cfc704a8b2799cba78e';
+        const groupIdTest = myID;
         const groupEmails = getUserList(groupIdTest);
         return groupEmails;
     }

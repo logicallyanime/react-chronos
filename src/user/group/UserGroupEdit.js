@@ -7,11 +7,12 @@ import {
     getGroupName,
     getUser,
     getUserByEmail,
-    getUserList, removeUserFromGroup, updateGroupName,
+    getUserList, removeUserFromGroup, setMeeting, updateGroupName,
     userExists
 } from "../../util/APIUtils";
 import {Box, Button, ButtonGroup, FormControl, Table, TextField} from "@mui/material";
 
+let myID = "638ea2f34b10bf3bd2bc48ad";
 let newName = '';
 let oldName = '';
 let qName = '';
@@ -26,6 +27,7 @@ let date = 0;
 let myprops;
 let tempPMs;
 let PMs;
+let meetNum;
 
 function handleNameChange(event){
     newName = event.target.value;
@@ -70,33 +72,33 @@ function handleRemove(event){
 
 async function thisGroupName() {
     let s;
-    await getGroupName("638978c55c05151ad325b89b").then(r => {
+    await getGroupName(myID).then(r => {
         s = r;
     });
     return s;
 }
 function handleAdd(event){
     console.log(qName);
-    addUserToGroup("638978c55c05151ad325b89b", qName);
+    addUserToGroup(myID, qName);
 }
 
 function handleRemove(event){
     console.log(qName);
-    removeUserFromGroup("638978c55c05151ad325b89b", qName);
+    removeUserFromGroup(myID, qName);
 }
 
 function handleSave(event){
     console.log(newName);
-    updateGroupName("638978c55c05151ad325b89b", newName, null, null, null);
+    updateGroupName(myID, newName, null, null, null);
 }
 
 function handleAddEvents(event){
-    addToGroupEvents("638956f0ece6225fdf09948b");
+    addToGroupEvents(myID);
 }
 
 async function thisGroupName() {
     let s;
-    await getGroupName("638978c55c05151ad325b89b").then(r =>{
+    await getGroupName(myID).then(r =>{
         s = r;
     });
     return s;
@@ -104,7 +106,7 @@ async function thisGroupName() {
 
 async function thisGroupUserList(){
     let s;
-    await getUserList("638978c55c05151ad325b89b").then(r =>{
+    await getUserList(myID).then(r =>{
         s = r;
     })
     return s;
@@ -128,6 +130,16 @@ function handleDayChange(event){
 
 function handleLengthChange(event) {
     length = event.target.value
+}
+
+function handleMeetingChange(event){
+    meetNum = event.target.value
+}
+
+function handleMeetingChoice(){
+    if(meetNum && meetNum < PMs.length && meetNum >= 0){
+        setMeeting(myID, PMs[meetNum].key.start.dateTime.value, PMs[meetNum].key.end.dateTime.value);
+    }
 }
 
 class UserGroupEdit extends Component{
@@ -166,7 +178,7 @@ class UserGroupEdit extends Component{
 
     handleDTMCall() {
         UserGroupEdit.AssembleDate();
-        tempPMs = determineMeetingTime("638978c55c05151ad325b89b", myprops.currentUser.email,length,date);
+        tempPMs = determineMeetingTime(myID, myprops.currentUser.email,length,date);
         setPMs();
         console.log(PMs)
         if(document.getElementById("dtmTable")){
@@ -176,7 +188,7 @@ class UserGroupEdit extends Component{
         t.setAttribute("id", "dtmTable");
         document.body.appendChild(t);
         let i;
-        let len = PMs.length
+        let len = PMs.length;
         console.log(len);
         for(i = 0; i < len; i++){
             let r = document.createElement("TR");
@@ -185,6 +197,11 @@ class UserGroupEdit extends Component{
             s.appendChild(sc);
             r.appendChild(s);
 
+            let space = document.createElement("TD");
+            let spacec = document.createTextNode("...");
+            space.appendChild(spacec);
+            r.appendChild(space);
+
             let u = document.createElement("TD");
             let uc = document.createTextNode("From " + (new Date(PMs[i].key.start.dateTime.value)).toUTCString() + " until " + (new Date(PMs[i].key.end.dateTime.value)).toUTCString() + " " + PMs[i].val);
             u.appendChild(uc);
@@ -192,7 +209,6 @@ class UserGroupEdit extends Component{
             t.appendChild(r);
         }
         document.body.appendChild(t);
-
     }
 
     static async setNewUser(){
@@ -233,6 +249,7 @@ class UserGroupEdit extends Component{
                         <ButtonGroup variant="contained" aria-label="outlined primary button group">
                             <Button onClick={handleAdd}>Add</Button>
                             <Button onClick={handleRemove}>Remove</Button>
+                            <Button onClick={handleSave}>Save</Button>
                         </ButtonGroup>
                         <h3 className="p-3 text-center">React - Display all Users</h3>
                         <table className="table table-striped table-bordered">
@@ -260,6 +277,12 @@ class UserGroupEdit extends Component{
                         <Button variant="contained"
                                 onClick={this.handleDTMCall}
                         >Determine Meeting Time</Button>
+                        <TextField id="meeting-box" label="Meeting Choice #"
+                                   onChange={handleMeetingChange}
+                        />
+                        <Button variant="contained"
+                                onClick={handleMeetingChoice}
+                        >Choose Meeting Time</Button>
                         </body>
                     </FormControl>
                 </Box>

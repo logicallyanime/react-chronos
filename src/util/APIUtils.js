@@ -170,11 +170,10 @@ export function determineMeetingTime(groupId, email, meetingTime, date){
     });
 }
 
-export function setMeeting(groupId, meeting){
+export function setMeeting(groupId, startTime, endTime){
     return request({
-        url: GROUP_API_URL + "/meeting",
+        url: GROUP_API_URL + "/meeting/" + groupId + "?startTime=" + startTime + "&endTime=" + endTime,
         method: "PATCH",
-        body: JSON.stringify(groupId, meeting)
     });
 }
 
