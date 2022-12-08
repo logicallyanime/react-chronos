@@ -10,6 +10,10 @@ import { Link } from 'react-router-dom';
 import {Button} from "@mui/material";
 //import PrivateRoute from "../../common/PrivateRoute";
 
+const groups = [
+ "Group 1", "group 2", "group 3"
+]
+
 
 class Group extends Component {
     constructor(props) {

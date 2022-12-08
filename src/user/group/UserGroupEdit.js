@@ -12,6 +12,7 @@ import {
 } from "../../util/APIUtils";
 import {Box, Button, ButtonGroup, FormControl, Table, TextField} from "@mui/material";
 
+let myID = '639138fdbf547c6e9b498af7';
 let newName = '';
 let oldName = '';
 let qName = '';
@@ -55,48 +56,35 @@ async function thisNewUser(){
     return s;
 }
 
-
-
-function handleAdd(event){
-    UserGroupEdit.setNewUser();
-    console.log(temp);
-}
-
-function handleRemove(event){
-
-}
-
-
-
 async function thisGroupName() {
     let s;
-    await getGroupName("638978c55c05151ad325b89b").then(r => {
+    await getGroupName(myID).then(r => {
         s = r;
     });
     return s;
 }
 function handleAdd(event){
     console.log(qName);
-    addUserToGroup("638978c55c05151ad325b89b", qName);
+    addUserToGroup(myID, qName);
 }
 
 function handleRemove(event){
     console.log(qName);
-    removeUserFromGroup("638978c55c05151ad325b89b", qName);
+    removeUserFromGroup(myID, qName);
 }
 
 function handleSave(event){
     console.log(newName);
-    updateGroupName("638978c55c05151ad325b89b", newName, null, null, null);
+    updateGroupName(myID, newName, null, null, null);
 }
 
 function handleAddEvents(event){
-    addToGroupEvents("638956f0ece6225fdf09948b");
+    addToGroupEvents(myID);
 }
 
 async function thisGroupName() {
     let s;
-    await getGroupName("638978c55c05151ad325b89b").then(r =>{
+    await getGroupName(myID).then(r =>{
         s = r;
     });
     return s;
@@ -104,7 +92,7 @@ async function thisGroupName() {
 
 async function thisGroupUserList(){
     let s;
-    await getUserList("638978c55c05151ad325b89b").then(r =>{
+    await getUserList(myID).then(r =>{
         s = r;
     })
     return s;
@@ -166,7 +154,7 @@ class UserGroupEdit extends Component{
 
     handleDTMCall() {
         UserGroupEdit.AssembleDate();
-        tempPMs = determineMeetingTime("638978c55c05151ad325b89b", myprops.currentUser.email,length,date);
+        tempPMs = determineMeetingTime(myID, myprops.currentUser.email,length,date);
         setPMs();
         console.log(PMs)
         if(document.getElementById("dtmTable")){
@@ -233,6 +221,7 @@ class UserGroupEdit extends Component{
                         <ButtonGroup variant="contained" aria-label="outlined primary button group">
                             <Button onClick={handleAdd}>Add</Button>
                             <Button onClick={handleRemove}>Remove</Button>
+                            <Button onClick={handleSave}>Save</Button>
                         </ButtonGroup>
                         <h3 className="p-3 text-center">React - Display all Users</h3>
                         <table className="table table-striped table-bordered">
