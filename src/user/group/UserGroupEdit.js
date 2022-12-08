@@ -7,7 +7,7 @@ import {
     getGroupName,
     getUser,
     getUserByEmail,
-    getUserList, removeUserFromGroup, updateGroupName,
+    getUserList, removeUserFromGroup, setMeeting, updateGroupName,
     userExists
 } from "../../util/APIUtils";
 import {Box, Button, ButtonGroup, FormControl, Table, TextField} from "@mui/material";
@@ -27,6 +27,7 @@ let date = 0;
 let myprops;
 let tempPMs;
 let PMs;
+let meetNum;
 
 function handleNameChange(event){
     newName = event.target.value;
@@ -118,6 +119,16 @@ function handleLengthChange(event) {
     length = event.target.value
 }
 
+function handleMeetingChange(event){
+    meetNum = event.target.value
+}
+
+function handleMeetingChoice(){
+    if(meetNum && meetNum < PMs.length && meetNum >= 0){
+        setMeeting(myID, PMs[meetNum].key.start.dateTime.value, PMs[meetNum].key.end.dateTime.value);
+    }
+}
+
 class UserGroupEdit extends Component{
 
     static AssembleDate() {
@@ -164,7 +175,7 @@ class UserGroupEdit extends Component{
         t.setAttribute("id", "dtmTable");
         document.body.appendChild(t);
         let i;
-        let len = PMs.length
+        let len = PMs.length;
         console.log(len);
         for(i = 0; i < len; i++){
             let r = document.createElement("TR");
@@ -173,6 +184,11 @@ class UserGroupEdit extends Component{
             s.appendChild(sc);
             r.appendChild(s);
 
+            let space = document.createElement("TD");
+            let spacec = document.createTextNode("...");
+            space.appendChild(spacec);
+            r.appendChild(space);
+
             let u = document.createElement("TD");
             let uc = document.createTextNode("From " + (new Date(PMs[i].key.start.dateTime.value)).toUTCString() + " until " + (new Date(PMs[i].key.end.dateTime.value)).toUTCString() + " " + PMs[i].val);
             u.appendChild(uc);
@@ -180,7 +196,6 @@ class UserGroupEdit extends Component{
             t.appendChild(r);
         }
         document.body.appendChild(t);
-
     }
 
     static async setNewUser(){
@@ -249,6 +264,12 @@ class UserGroupEdit extends Component{
                         <Button variant="contained"
                                 onClick={this.handleDTMCall}
                         >Determine Meeting Time</Button>
+                        <TextField id="meeting-box" label="Meeting Choice #"
+                                   onChange={handleMeetingChange}
+                        />
+                        <Button variant="contained"
+                                onClick={handleMeetingChoice}
+                        >Choose Meeting Time</Button>
                         </body>
                     </FormControl>
                 </Box>
